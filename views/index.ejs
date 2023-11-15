@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Test Client</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+  <body>
+
+    <h1>Rest API Test</h1>
+    
+    <% if(typeof errs !== "undefined") { %>
+      <% errs.forEach((err)=>{%>
+          <h4 style="color: red;"><%=err.path%> : <%=err.msg%></h4>
+      <% }) %>
+    <% } %>
+
+    <form method="post" action="/execute">
+      
+      <h2>Test Data</h2>
+
+      <div class="write-TDI">
+        <h3>Test Data Id</h3>
+        <input type="text" name="TestDataId"/>
+      </div>
+
+      <div class="write-TDN">
+        <h3>Test Data Name</h3>
+        <input type="text" name="TestDataName"/>
+      </div>
+
+      <div class="write-TDSN">
+        <h3>Test Data Server Name</h3>
+        <input type="text" name="TestDataServerName"/>
+      </div>
+
+      <h2>Test Request Data</h2>
+
+      <div class="write-Protocol">
+        <h3>Protocol</h3>
+        <input type="text" name="Protocol"/>
+      </div>
+
+      <div class="write-Host">
+        <h3>Host</h3>
+        <input type="text" name="Host"/>
+      </div>
+
+      <div class="write-HM">
+        <h3>Http Method</h3>
+        <input type="text" name="HttpMethod"/>
+      </div>
+
+      <div class="write-Header">
+        <h3>Header</h3>
+        <input type="text" name="Header"/>
+      </div>
+
+      <div class="write-Query">
+        <h3>Query</h3>
+        <input type="text" name="Query"/>
+      </div>
+
+      <div class="write-Parameter">
+        <h3>Parameter</h3>
+        <input type="text" name="Parameter"/>
+      </div>
+
+      <div class="write-Path">
+        <h3>Path</h3>
+        <input type="text" name="Path"/>
+      </div>
+
+      <div class="write-Body">
+        <h3>Body</h3>
+        <input type="text" name="Body"/>
+      </div>
+
+      <h2>Test Response Data</h2>
+
+      <div class="write-Cookie">
+        <h3>Cookie</h3>
+        <input type="text" name="Cookie"/>
+      </div>
+
+      <div class="write-HSC">
+        <h3>Http Status Code</h3>
+        <input type="text" name="HttpStatusCode"/>
+      </div>
+
+      <div class="write-Data">
+        <h3>Data</h3>
+        <input type="text" name="Data"/>
+      </div>
+
+      <div class="btn">
+        <br/>
+        <input type="submit" value="Execute">
+        <input type="reset" value="Reset">
+      </div>
+
+    </form>
+  </body>
+</html>
