@@ -7,15 +7,15 @@ class TestData extends Sequelize.Model {
         return super.init(
             {
                 // 테스트 데이터
-                TestDataId: {
+                Test_Data_Id: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                TestDataName: {
+                Test_Data_Name: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                TestDataServerName: {
+                Test_Data_Server_Name: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
@@ -29,7 +29,7 @@ class TestData extends Sequelize.Model {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                HttpMethod: {
+                Http_Method: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
@@ -59,7 +59,7 @@ class TestData extends Sequelize.Model {
                     type: Sequelize.TEXT,
                     allowNull: false,
                 },
-                HttpStatusCode: {
+                Http_Status_Code: {
                     type: Sequelize.TEXT,
                     allowNull: false,
                 },

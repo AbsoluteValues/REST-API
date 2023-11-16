@@ -7,27 +7,27 @@ class TestData extends Sequelize.Model {
         return super.init(
             {
                 // 테스트 결과
-                TestDataId: {
+                Test_Data_Id: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                TestCaseId: {
+                Test_Case_Id: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                ResponseMs: {
+                Response_Ms: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                HttpStatusCode: {
+                Http_Status_Code: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
-                IsSuccess: {
+                Is_Success: {
                     type: Sequelize.BOOLEAN,
                     allowNull: false,
                 },
-                ResponseData: {
+                Response_Data: {
                     type: Sequelize.STRING(100),
                     allowNull: false,
                 },
