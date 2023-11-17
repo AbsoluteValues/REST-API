@@ -20,9 +20,8 @@ class TestData extends Sequelize.Model {
                     allowNull: false,
                 },
                 Test_Creation_Date: {
-                    type: Sequelize.DATE,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
-                    defaultValue: Sequelize.NOW,
                 },
                 Test_Data_List: {
                     type: Sequelize.STRING(100),
@@ -31,14 +30,12 @@ class TestData extends Sequelize.Model {
 
                 // 테스트 결과 영역
                 Test_Start_Date: {
-                    type: Sequelize.DATE,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
-                    defaultValue: Sequelize.NOW,
                 },
                 Test_End_Date: {
-                    type: Sequelize.DATE,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
-                    defaultValue: Sequelize.NOW,
                 },
                 Test_Success_Ratio: {
                     type: Sequelize.STRING(100),

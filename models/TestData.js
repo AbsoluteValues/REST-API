@@ -56,15 +56,15 @@ class TestData extends Sequelize.Model {
 
                 // 테스트 응답 데이터
                 Cookie: {
-                    type: Sequelize.TEXT,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
                 },
                 Http_Status_Code: {
-                    type: Sequelize.TEXT,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
                 },
                 Data: {
-                    type: Sequelize.TEXT,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
                 },
             },

@@ -8,10 +8,13 @@
   </head>
   <body>
 
-    <h1>Rest API Test</h1>      
-      <div class="txt-uploaded">
-        <h3>Uploaded test data</h3>
-      </div>
+    <h1>Rest API Test</h1>
+      
+    <div class="txt-status">
+      <% status.forEach((status)=>{%>
+        <h3><%=status%></h3>
+      <% }) %>
+    </div>
 
   </body>
 </html>

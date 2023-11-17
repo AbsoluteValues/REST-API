@@ -24,7 +24,7 @@ class TestData extends Sequelize.Model {
                     allowNull: false,
                 },
                 Is_Success: {
-                    type: Sequelize.BOOLEAN,
+                    type: Sequelize.STRING(100),
                     allowNull: false,
                 },
                 Response_Data: {

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <title>Test Client</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+  </head>
+  <body>
+
+    <h1>Rest API Test</h1>
+    
+    <% if(typeof errs !== "undefined") { %>
+      <% errs.forEach((err)=>{%>
+          <h4 style="color: red;"><%=err.path%> : <%=err.msg%></h4>
+      <% }) %>
+    <% } %>
+
+    <form method="post" action="/test-case/create">
+      
+      <h2>Test Area</h2>
+
+      <div class="write-TCI">
+        <h3>Test Case Id</h3>
+        <input type="text" name="Test_Case_Id"/>
+      </div>
+
+      <div class="write-TN">
+        <h3>Test Name</h3>
+        <input type="text" name="Test_Name"/>
+      </div>
+
+      <div class="write-TI">
+        <h3>Test Interval</h3>
+        <input type="text" name="Test_Interval"/>
+      </div>
+
+      <div class="write-TCD">
+        <h3>Test Creation Date</h3>
+        <input type="text" name="Test_Creation_Date"/>
+      </div>
+
+      <div class="write-TDL">
+        <h3>Test Data List</h3>
+        <input type="text" name="Test_Data_List"/>
+      </div>
+
+      <h2>Test Result Area</h2>
+
+      <div class="write-TSD">
+        <h3>Test Start Date</h3>
+        <input type="text" name="Test_Start_Date"/>
+      </div>
+
+      <div class="write-TED">
+        <h3>Test End Date</h3>
+        <input type="text" name="Test_End_Date"/>
+      </div>
+
+      <div class="write-TSR">
+        <h3>Test Success Ratio</h3>
+        <input type="text" name="Test_Success_Ratio"/>
+      </div>
+
+      <div class="write-TER">
+        <h3>Test Error Ratio</h3>
+        <input type="text" name="Test_Error_Ratio"/>
+      </div>
+
+      <div class="btn">
+        <br/>
+        <input type="submit" value="Create">
+        <input type="reset" value="Reset">
+      </div>
+
+    </form>
+  </body>
+</html>
