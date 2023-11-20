@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { TestCase } = require('../models');
+const { TestCase, TestData } = require('../models');
 
 const { check, validationResult } = require('express-validator');
 
@@ -60,6 +60,28 @@ router.get('/read/:id', (async (req, res, next) => {
   const status = await TestCase.findAll({});
     
   res.send(status[id]);
+}));
+
+router.get('/delete', (async (req, res, next) => {
+  await TestCase.destroy({
+    where: {}
+  });
+  
+  const status = await TestCase.findAll({});
+
+  res.send(status);
+}));
+
+router.get('/delete/:id', (async (req, res, next) => {
+  const id = req.params.id;
+
+  await TestCase.destroy({
+    where: { id: id }
+  });
+
+  const status = await TestCase.findAll({});
+
+  res.send(status);
 }));
 
 module.exports = router;

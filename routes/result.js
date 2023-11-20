@@ -56,4 +56,26 @@ router.get('/read/:id', (async (req, res, next) => {
   res.send(status[id]);
 }));
 
+router.get('/delete', (async (req, res, next) => {
+  await TestResult.destroy({
+    where: {}
+  });
+  
+  const status = await TestResult.findAll({});
+
+  res.send(status);
+}));
+
+router.get('/delete/:id', (async (req, res, next) => {
+  const id = req.params.id;
+
+  await TestResult.destroy({
+    where: { id: id }
+  });
+
+  const status = await TestResult.findAll({});
+
+  res.send(status);
+}));
+
 module.exports = router;

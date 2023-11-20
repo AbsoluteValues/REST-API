@@ -72,7 +72,9 @@ router.get('/read/:id', (async (req, res, next) => {
 }));
 
 router.get('/delete', (async (req, res, next) => {
-  await TestData.destroy();
+  await TestData.destroy({
+    where: {}
+  });
   
   const status = await TestData.findAll({});
 
@@ -83,7 +85,7 @@ router.get('/delete/:id', (async (req, res, next) => {
   const id = req.params.id;
 
   await TestData.destroy({
-    where: { id: id },
+    where: { id: id }
   });
 
   const status = await TestData.findAll({});
