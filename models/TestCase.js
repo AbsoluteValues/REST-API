@@ -8,41 +8,41 @@ class TestData extends Sequelize.Model {
             {
                 // 테스트 영역
                 Test_Case_Id: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Name: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Interval: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Creation_Date: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Data_List: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
 
                 // 테스트 결과 영역
                 Test_Start_Date: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_End_Date: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Success_Ratio: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Error_Ratio: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
             },

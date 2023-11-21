@@ -8,63 +8,63 @@ class TestData extends Sequelize.Model {
             {
                 // 테스트 데이터
                 Test_Data_Id: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Data_Name: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Test_Data_Server_Name: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
 
                 // 테스트 요청 데이터
                 Protocol: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Host: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Http_Method: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Header: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Query: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: true,
                 },
                 Parameter: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: true,
                 },
                 Path: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
                 Body: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.STRING,
                     allowNull: false,
                 },
 
                 // 테스트 응답 데이터
                 Cookie: {
-                    type: Sequelize.STRING(100),
-                    allowNull: false,
+                    type: Sequelize.STRING,
+                    allowNull: true,
                 },
                 Http_Status_Code: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.INTEGER,
                     allowNull: false,
                 },
                 Data: {
-                    type: Sequelize.STRING(100),
+                    type: Sequelize.TEXT,
                     allowNull: false,
                 },
             },
