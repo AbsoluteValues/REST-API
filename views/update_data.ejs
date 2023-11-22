@@ -16,87 +16,87 @@
       <% }) %>
     <% } %>
 
-    <form method="post" action="/test-data/create">
+    <form method="post" action="/test-data/update">
       
       <h2>Test Data</h2>
 
       <div class="write-TDI">
         <h3>Test Data Id</h3>
-        <input type="text" name="Test_Data_Id">
+        <input type="text" name="Test_Data_Id" value=<%=id.Test_Data_Id%>>
       </div>
 
       <div class="write-TDN">
         <h3>Test Data Name</h3>
-        <input type="text" name="Test_Data_Name">
+        <input type="text" name="Test_Data_Name" value=<%=id.Test_Data_Name%>>
       </div>
 
       <div class="write-TDSN">
         <h3>Test Data Server Name</h3>
-        <input type="text" name="Test_Data_Server_Name">
+        <input type="text" name="Test_Data_Server_Name" value=<%=id.Test_Data_Server_Name%>>
       </div>
 
       <h2>Test Request Data</h2>
 
       <div class="write-Protocol">
         <h3>Protocol</h3>
-        <input type="text" name="Protocol">
+        <input type="text" name="Protocol" value=<%=id.Protocol%>>
       </div>
 
       <div class="write-Host">
         <h3>Host</h3>
-        <input type="text" name="Host">
+        <input type="text" name="Host" value=<%=id.Host%>>
       </div>
 
       <div class="write-HM">
         <h3>Http Method</h3>
-        <input type="text" name="Http_Method">
+        <input type="text" name="Http_Method" value=<%=id.Http_Method%>>
       </div>
 
       <div class="write-Header">
         <h3>Header</h3>
-        <input type="text" name="Header">
+        <input type="text" name="Header" value=<%=id.Header%>>
       </div>
 
       <div class="write-Query">
         <h3>Query</h3>
-        <input type="text" name="Query">
+        <input type="text" name="Query" value=<%=id.Query%>>
       </div>
 
       <div class="write-Parameter">
         <h3>Parameter</h3>
-        <input type="text" name="Parameter">
+        <input type="text" name="Parameter" value=<%=id.Parameter%>>
       </div>
 
       <div class="write-Path">
         <h3>Path</h3>
-        <input type="text" name="Path">
+        <input type="text" name="Path" value=<%=id.Path%>>
       </div>
 
       <div class="write-Body">
         <h3>Body</h3>
-        <input type="text" name="Body">
+        <input type="text" name="Body" value=<%=id.Body%>>
       </div>
 
       <h2>Test Response Data</h2>
 
       <div class="write-Cookie">
         <h3>Cookie</h3>
-        <input type="text" name="Cookie">
+        <input type="text" name="Cookie" value=<%=id.Cookie%>>
       </div>
 
       <div class="write-HSC">
         <h3>Http Status Code</h3>
-        <input type="text" name="Http_Status_Code">
+        <input type="text" name="Http_Status_Code" value=<%=id.Http_Status_Code%>>
       </div>
 
       <div class="write-Data">
         <h3>Data</h3>
-        <textarea name="Data" rows="25" cols="22.5"></textarea>
+        <textarea name="Data" rows="25" cols="22.5"><%=id.Data%></textarea>
       </div>
 
       <div class="btn">
         <br/>
-        <input type="submit" value="Create">
+        <input type="submit" value="Update">
         <input type="reset" value="Reset">
       </div>
 

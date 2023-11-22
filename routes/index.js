@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-  res.json({title : 'Hello, World!'});
+  res.send("Hello, World!");
 });
 
 router.use('/test-data', require('./data'));

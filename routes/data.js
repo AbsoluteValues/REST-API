@@ -11,20 +11,20 @@ router.get('/', (req, res, next) => {
 
 router.post('/create',
 
-  [check('Test_Data_Id').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Data_Name').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Data_Server_Name').isByteLength({ min: 1, max: 500 })],
-  [check('Protocol').isByteLength({ min: 1, max: 500 })],
-  [check('Host').isByteLength({ min: 1, max: 500 })],
-  [check('Http_Method').isByteLength({ min: 1, max: 500 })],
-  [check('Header').isByteLength({ min: 1, max: 500 })],
-  [check('Query').isByteLength({ min: 1, max: 500 })],
-  [check('Parameter').isByteLength({ min: 1, max: 500 })],
-  [check('Path').isByteLength({ min: 1, max: 500 })],
-  [check('Body').isByteLength({ min: 1, max: 500 })],
-  [check('Cookie').isByteLength({ min: 1, max: 500 })],
-  [check('Http_Status_Code').isByteLength({ min: 1, max: 500 })],
-  [check('Data').isByteLength({ min: 1, max: 500 })],
+  [check('Test_Data_Id').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Data_Name').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Data_Server_Name').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Protocol').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Host').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Http_Method').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Header').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Query').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Parameter').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Path').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Body').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Cookie').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Http_Status_Code').isByteLength({ min: 1, max: 255 }).withMessage("Not Null").isInt({ min: 1, max: 255 }).withMessage("Integer")],
+  [check('Data').isByteLength({ min: 1, max: 65535 }).withMessage("Not Null")],
 
   function (req, res, next) {
     let errs = validationResult(req);
@@ -58,39 +58,66 @@ router.post('/create',
 );
 
 router.get('/read', (async (req, res, next) => {
-  const status = await TestData.findAll({});
+  const subject = await TestData.findAll({});
 
-  res.send(status);
+  res.send(subject);
 }));
 
 router.get('/read/:id', (async (req, res, next) => {
   const id = req.params.id - 1;
 
-  const status = await TestData.findAll({});
+  const subject = await TestData.findAll({});
 
-  res.send(status[id]);
+  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
+    res.send(subject[id]);
+  }
+  else {
+    res.render('status', { status: ["id is invalid"] });
+  }
+}));
+
+router.get('/update/:id', (async (req, res, next) => {
+  const id = req.params.id - 1;
+
+  const subject = await TestData.findAll({});
+
+  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
+    res.render('update_data', { id: subject[id] });
+  }
+  else {
+    res.render('status', { status: ["id is invalid"] });
+  }
 }));
 
 router.get('/delete', (async (req, res, next) => {
   await TestData.destroy({
     where: {}
   });
-  
-  const status = await TestData.findAll({});
 
-  res.send(status);
+  const subject = await TestData.findAll({});
+
+  res.send(subject);
 }));
 
 router.get('/delete/:id', (async (req, res, next) => {
-  const id = req.params.id;
+  let id = req.params.id - 1;
 
-  await TestData.destroy({
-    where: { id: id }
-  });
+  let subject = await TestData.findAll({});
 
-  const status = await TestData.findAll({});
+  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
+    id = req.params.id;
 
-  res.send(status);
+    await TestData.destroy({
+      where: { id: id }
+    });
+
+    subject = await TestData.findAll({});
+
+    res.send(subject);
+  }
+  else {
+    res.render('status', { status: ["id is invalid"] });
+  }
 }));
 
 module.exports = router;

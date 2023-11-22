@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { TestCase, TestData } = require('../models');
+const { TestCase } = require('../models');
 
 const { check, validationResult } = require('express-validator');
 
@@ -11,15 +11,15 @@ router.get('/', (req, res, next) => {
 
 router.post('/create',
 
-  [check('Test_Case_Id').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Name').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Interval').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Creation_Date').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Data_List').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Start_Date').isByteLength({ min: 1, max: 500 })],
-  [check('Test_End_Date').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Success_Ratio').isByteLength({ min: 1, max: 500 })],
-  [check('Test_Error_Ratio').isByteLength({ min: 1, max: 500 })],
+  [check('Test_Case_Id').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Name').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Interval').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Creation_Date').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Data_List').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Start_Date').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_End_Date').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Success_Ratio').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
+  [check('Test_Error_Ratio').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
 
   function (req, res, next) {
     let errs = validationResult(req);
@@ -42,7 +42,7 @@ router.post('/create',
         Test_Error_Ratio: param['Test_Error_Ratio'],
       });
 
-      res.render('status', {status:["Created Test Case"]});
+      res.render('status', { status: ["Created Test Case"] });
     }
   }
 );
@@ -50,7 +50,7 @@ router.post('/create',
 router.get('/read', (async (req, res, next) => {
 
   const status = await TestCase.findAll({});
-    
+
   res.send(status);
 }));
 
@@ -58,7 +58,7 @@ router.get('/read/:id', (async (req, res, next) => {
   const id = req.params.id - 1;
 
   const status = await TestCase.findAll({});
-    
+
   res.send(status[id]);
 }));
 
@@ -66,7 +66,7 @@ router.get('/delete', (async (req, res, next) => {
   await TestCase.destroy({
     where: {}
   });
-  
+
   const status = await TestCase.findAll({});
 
   res.send(status);
