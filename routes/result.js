@@ -4,47 +4,74 @@ const router = express.Router();
 const { TestData, TestCase, TestResult } = require('../models');
 
 function validationProtocol(validationSubject, id) {
-  return validationSubject[id].Protocol;
+  const Protocol = validationSubject[id].Protocol;
+
+  if (Protocol == 'http' || Protocol == 'https') {
+    return true;
+  }
+  else {
+    return false
+  }
 };
 
 function validationHost(validationSubject, id) {
-  return validationSubject[id].Host;
+  const Host = validationSubject[id].Host;
+
+  return Host;
 };
 
 function validationHttpMethod(validationSubject, id) {
-  return validationSubject[id].Http_Method;
+  const HttpMethod = validationSubject[id].HttpMethod;
+
+  return HttpMethod;
 };
 
 function validationHeader(validationSubject, id) {
-  return validationSubject[id].Header;
+  const Header = validationSubject[id].Header;
+
+  return Header;
 };
 
 function validationQuery(validationSubject, id) {
-  return validationSubject[id].Query;
+  const Query = validationSubject[id].Query;
+
+  return Query;
 };
 
 function validationParameter(validationSubject, id) {
-  return validationSubject[id].Parameter;
+  const Parameter = validationSubject[id].Parameter;
+
+  return Parameter;
 };
 
 function validationPath(validationSubject, id) {
-  return validationSubject[id].Path;
+  const Path = validationSubject[id].Path;
+
+  return Path;
 };
 
 function validationBody(validationSubject, id) {
-  return validationSubject[id].Body;
+  const Body = validationSubject[id].Body;
+
+  return Body;
 };
 
 function validationCookie(validationSubject, id) {
-  return validationSubject[id].Cookie;
+  const Cookie = validationSubject[id].Cookie;
+
+  return Cookie;
 };
 
 function validationHttpStatusCode(validationSubject, id) {
-  return validationSubject[id].Http_Status_Code;
+  const HttpStatusCode = validationSubject[id].HttpStatusCode;
+
+  return HttpStatusCode;
 };
 
 function validationData(validationSubject, id) {
-  return validationSubject[id].Data;
+  const Data = validationSubject[id].Data;
+
+  return Data;
 };
 
 router.get('/', (async (req, res, next) => {

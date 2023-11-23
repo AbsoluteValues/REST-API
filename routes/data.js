@@ -11,20 +11,20 @@ router.get('/', (req, res, next) => {
 
 router.post('/create',
 
-  [check('Test_Data_Id').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Test_Data_Name').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Test_Data_Server_Name').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Protocol').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Host').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Http_Method').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Header').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Query').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Parameter').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Path').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Body').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Cookie').isByteLength({ min: 1, max: 255 }).withMessage("Not Null")],
-  [check('Http_Status_Code').isByteLength({ min: 1, max: 255 }).withMessage("Not Null").isInt({ min: 1, max: 255 }).withMessage("Integer")],
-  [check('Data').isByteLength({ min: 1, max: 65535 }).withMessage("Not Null")],
+  [check('Test_Data_Id').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Test_Data_Name').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Test_Data_Server_Name').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Protocol').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Host').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Http_Method').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Header').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Query').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Parameter').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Path').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Body').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Cookie').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Http_Status_Code').trim().not().isEmpty().withMessage("Not Null").isInt().withMessage("Int")],
+  [check('Data').trim().not().isEmpty().withMessage("Not Null")],
 
   function (req, res, next) {
     let errs = validationResult(req);
@@ -36,20 +36,20 @@ router.post('/create',
       let param = JSON.parse(JSON.stringify(req.body));
 
       TestData.create({
-        Test_Data_Id: param['Test_Data_Id'],
-        Test_Data_Name: param['Test_Data_Name'],
-        Test_Data_Server_Name: param['Test_Data_Server_Name'],
-        Protocol: param['Protocol'],
-        Host: param['Host'],
-        Http_Method: param['Http_Method'],
-        Header: param['Header'],
-        Query: param['Query'],
-        Parameter: param['Parameter'],
-        Path: param['Path'],
-        Body: param['Body'],
-        Cookie: param['Cookie'],
-        Http_Status_Code: param['Http_Status_Code'],
-        Data: param['Data'],
+        Test_Data_Id: param['Test_Data_Id'].trim(),
+        Test_Data_Name: param['Test_Data_Name'].trim(),
+        Test_Data_Server_Name: param['Test_Data_Server_Name'].trim(),
+        Protocol: param['Protocol'].trim(),
+        Host: param['Host'].trim(),
+        Http_Method: param['Http_Method'].trim(),
+        Header: param['Header'].trim(),
+        Query: param['Query'].trim(),
+        Parameter: param['Parameter'].trim(),
+        Path: param['Path'].trim(),
+        Body: param['Body'].trim(),
+        Cookie: param['Cookie'].trim(),
+        Http_Status_Code: param['Http_Status_Code'].trim(),
+        Data: param['Data'].trim(),
       });
 
       res.render('status', { status: ["Created Test Data"] });
@@ -64,12 +64,16 @@ router.get('/read', (async (req, res, next) => {
 }));
 
 router.get('/read/:id', (async (req, res, next) => {
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  const subject = await TestData.findAll({});
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
 
-  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
-    res.send(subject[id]);
+  if (subject[0] != null) {
+    res.send(subject[0]);
   }
   else {
     res.render('status', { status: ["id is invalid"] });
@@ -77,43 +81,97 @@ router.get('/read/:id', (async (req, res, next) => {
 }));
 
 router.get('/update/:id', (async (req, res, next) => {
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  const subject = await TestData.findAll({});
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
 
-  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
-    res.render('update_data', { id: subject[id] });
+  if (subject[0] != null) {
+    res.render('update_data', { id: subject[0] });
   }
   else {
     res.render('status', { status: ["id is invalid"] });
   }
 }));
 
+router.post('/update',
+
+  [check('Test_Data_Id').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Test_Data_Name').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Test_Data_Server_Name').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Protocol').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Host').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Http_Method').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Header').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Query').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Parameter').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Path').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Body').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Cookie').trim().not().isEmpty().withMessage("Not Null").isLength({ max: 255 }).withMessage("Reached max(255)")],
+  [check('Http_Status_Code').trim().not().isEmpty().withMessage("Not Null").isInt().withMessage("Int")],
+  [check('Data').trim().not().isEmpty().withMessage("Not Null")],
+
+  async function (req, res, next) {
+    let errs = validationResult(req);
+    let param = JSON.parse(JSON.stringify(req.body));
+    let id = param['id'];
+
+    if (errs['errors'].length > 0) {
+      const subject = await TestData.findAll({});
+
+      res.render('update_data', { id: subject[id - 1], errs: errs['errors'] });
+    }
+    else {
+      TestData.update({
+        Test_Data_Id: param['Test_Data_Id'].trim(),
+        Test_Data_Name: param['Test_Data_Name'].trim(),
+        Test_Data_Server_Name: param['Test_Data_Server_Name'].trim(),
+        Protocol: param['Protocol'].trim(),
+        Host: param['Host'].trim(),
+        Http_Method: param['Http_Method'].trim(),
+        Header: param['Header'].trim(),
+        Query: param['Query'].trim(),
+        Parameter: param['Parameter'].trim(),
+        Path: param['Path'].trim(),
+        Body: param['Body'].trim(),
+        Cookie: param['Cookie'].trim(),
+        Http_Status_Code: param['Http_Status_Code'].trim(),
+        Data: param['Data'].trim(),
+      }, {
+        where: { id: id }
+      });
+
+      res.render('status', { status: ["Updated Test Data"] });
+    }
+  }
+);
+
 router.get('/delete', (async (req, res, next) => {
   await TestData.destroy({
     where: {}
   });
 
-  const subject = await TestData.findAll({});
-
-  res.send(subject);
+  res.render('status', { status: ["Deleted Test Data"] });
 }));
 
 router.get('/delete/:id', (async (req, res, next) => {
-  let id = req.params.id - 1;
+  const id = req.params.id;
 
-  let subject = await TestData.findAll({});
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
 
-  if (isNaN(id) == false && subject[id] != null && typeof (id) == 'number') {
-    id = req.params.id;
-
+  if (subject[0] != null) {
     await TestData.destroy({
       where: { id: id }
     });
 
-    subject = await TestData.findAll({});
-
-    res.send(subject);
+    res.render('status', { status: ["Deleted Test Data"] });
   }
   else {
     res.render('status', { status: ["id is invalid"] });
