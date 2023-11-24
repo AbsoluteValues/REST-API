@@ -29,6 +29,15 @@ router.post('/create',
   function (req, res, next) {
     let errs = validationResult(req);
 
+    console.log(req.protocol);
+    console.log(req.hostname);
+    // console.log(req.Http_Method);
+    console.log(req.header);
+    console.log(req.query);
+    console.log(req.params);
+    console.log(req.path);
+    console.log(req.body);
+
     if (errs['errors'].length > 0) {
       res.render('data', { errs: errs['errors'] });
     }

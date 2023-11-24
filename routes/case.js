@@ -80,7 +80,7 @@ router.get('/update/:id', (async (req, res, next) => {
     }
   });
 
-  if (subject[id] != null) {
+  if (subject[0] != null) {
     res.render('update_case', { id: subject[0] });
   }
   else {

@@ -2,76 +2,154 @@ const express = require('express');
 const router = express.Router();
 
 const { TestData, TestCase, TestResult } = require('../models');
+const { DATE } = require('sequelize');
 
-function validationProtocol(validationSubject, id) {
-  const Protocol = validationSubject[id].Protocol;
+let ratio = {
+  success: 0,
+  error: 0,
+};
+
+function validationProtocol(validationSubject) {
+  const Protocol = validationSubject.Protocol;
 
   if (Protocol == 'http' || Protocol == 'https') {
+    ratio.success += 1;
     return true;
   }
   else {
-    return false
+    ratio.error += 1;
+    return false;
   }
 };
 
 function validationHost(validationSubject, id) {
-  const Host = validationSubject[id].Host;
+  const Host = validationSubject.Host;
 
-  return Host;
+  if (Host == 'localhost') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationHttpMethod(validationSubject, id) {
-  const HttpMethod = validationSubject[id].HttpMethod;
+function validationHttpMethod(validationSubject) {
+  const HttpMethod = validationSubject.HttpMethod;
 
-  return HttpMethod;
+  if (HttpMethod == 'get' || HttpMethod == 'GET' || HttpMethod == 'post' || HttpMethod == 'POST') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationHeader(validationSubject, id) {
-  const Header = validationSubject[id].Header;
+function validationHeader(validationSubject) {
+  const Header = validationSubject.Header;
 
-  return Header;
+  if (Header == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationQuery(validationSubject, id) {
-  const Query = validationSubject[id].Query;
+function validationQuery(validationSubject) {
+  const Query = validationSubject.Query;
 
-  return Query;
+  if (Query == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationParameter(validationSubject, id) {
-  const Parameter = validationSubject[id].Parameter;
+function validationParameter(validationSubject) {
+  const Parameter = validationSubject.Parameter;
 
-  return Parameter;
+  if (Parameter == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationPath(validationSubject, id) {
-  const Path = validationSubject[id].Path;
+function validationPath(validationSubject) {
+  const Path = validationSubject.Path;
 
-  return Path;
+  if (Path == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationBody(validationSubject, id) {
-  const Body = validationSubject[id].Body;
+function validationBody(validationSubject) {
+  const Body = validationSubject.Body;
 
-  return Body;
+  if (Body == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationCookie(validationSubject, id) {
-  const Cookie = validationSubject[id].Cookie;
+function validationCookie(validationSubject) {
+  const Cookie = validationSubject.Cookie;
 
-  return Cookie;
+  if (Cookie == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationHttpStatusCode(validationSubject, id) {
-  const HttpStatusCode = validationSubject[id].HttpStatusCode;
+function validationHttpStatusCode(validationSubject) {
+  const HttpStatusCode = validationSubject.HttpStatusCode;
 
-  return HttpStatusCode;
+  if (HttpStatusCode == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
-function validationData(validationSubject, id) {
-  const Data = validationSubject[id].Data;
+function validationData(validationSubject) {
+  const Data = validationSubject.Data;
 
-  return Data;
+  if (Data == '') {
+    ratio.success += 1;
+    return true;
+  }
+  else {
+    ratio.error += 1;
+    return false;
+  }
 };
 
 router.get('/', (async (req, res, next) => {
@@ -93,36 +171,122 @@ router.get('/', (async (req, res, next) => {
   res.render('status', { status: welcome });
 }));
 
-router.get('/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+router.get('/case/:id/:tf', (async (req, res, next) => {
+  const id = req.params.id;
+  const tf = req.params.tf;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultProtocol = validationProtocol(validationSubject, id);
-    const resultHost = validationHost(validationSubject, id);
-    const resultHttpMethod = validationHttpMethod(validationSubject, id);
-    const resultHeader = validationHeader(validationSubject, id);
-    const resultQuery = validationQuery(validationSubject, id);
-    const resultParameter = validationParameter(validationSubject, id);
-    const resultPath = validationPath(validationSubject, id);
-    const resultBody = validationBody(validationSubject, id);
-    const resultCookie = validationCookie(validationSubject, id);
-    const resultHttpStatusCode = validationHttpStatusCode(validationSubject, id);
-    const resultData = validationData(validationSubject, id);
+  const data = await TestCase.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (data[0] != null) {
+    const startDate = new Date()
+    console.log(startDate);
+
+    const test = await TestData.findAll({});
+
+    let WTH = [];
+
+    while (tf == 'true') {
+      console.log("Hello, World");
+
+      for (i = 0; i < test.length; i++) {
+        const resultProtocol = validationProtocol(test[i]);
+        const resultHost = validationHost(test[i]);
+        const resultHttpMethod = validationHttpMethod(test[i]);
+        const resultHeader = validationHeader(test[i]);
+        const resultQuery = validationQuery(test[i]);
+        const resultParameter = validationParameter(test[i]);
+        const resultPath = validationPath(test[i]);
+        const resultBody = validationBody(test[i]);
+        const resultCookie = validationCookie(test[i]);
+        const resultHttpStatusCode = validationHttpStatusCode(test[i]);
+        const resultData = validationData(test[i]);
+
+        const result = [
+          ["Protocol = " + resultProtocol],
+          ["Host = " + resultHost],
+          ["HttpMethod = " + resultHttpMethod],
+          ["Header = " + resultHeader],
+          ["Query = " + resultQuery],
+          ["Parameter = " + resultParameter],
+          ["Path = " + resultPath],
+          ["Body = " + resultBody],
+          ["Cookie = " + resultCookie],
+          ["HttpStatusCode = " + resultHttpStatusCode],
+          ["Data = " + resultData]
+        ];
+
+        WTH.join(result);
+      }
+
+      await wait(data[0].Test_Interval);
+
+      console.log("Bye, World!");
+    }
+
+    const endDate = new Date()
+    console.log(endDate);
+
+    res.send("Hello, World!");
+  }
+  
+  else {
+    res.render('status', { status: ["id is invalid"] });
+  }
+}));
+
+const wait = (ms) => {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+};
+
+router.get('/:id', (async (req, res, next) => {
+  ratio.success = 0, ratio.error = 0;
+
+  const id = req.params.id;
+
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultProtocol = validationProtocol(subject[0]);
+    const resultHost = validationHost(subject[0]);
+    const resultHttpMethod = validationHttpMethod(subject[0]);
+    const resultHeader = validationHeader(subject[0]);
+    const resultQuery = validationQuery(subject[0]);
+    const resultParameter = validationParameter(subject[0]);
+    const resultPath = validationPath(subject[0]);
+    const resultBody = validationBody(subject[0]);
+    const resultCookie = validationCookie(subject[0]);
+    const resultHttpStatusCode = validationHttpStatusCode(subject[0]);
+    const resultData = validationData(subject[0]);
 
     const result = [
-      [resultProtocol],
-      [resultHost],
-      [resultHttpMethod],
-      [resultHeader],
-      [resultQuery],
-      [resultParameter],
-      [resultPath],
-      [resultBody],
-      [resultCookie],
-      [resultHttpStatusCode],
-      [resultData]
+      ["Protocol = " + resultProtocol],
+      ["Host = " + resultHost],
+      ["HttpMethod = " + resultHttpMethod],
+      ["Header = " + resultHeader],
+      ["Query = " + resultQuery],
+      ["Parameter = " + resultParameter],
+      ["Path = " + resultPath],
+      ["Body = " + resultBody],
+      ["Cookie = " + resultCookie],
+      ["HttpStatusCode = " + resultHttpStatusCode],
+      ["Data = " + resultData]
     ];
+
+    console.log(ratio.success);
+    console.log(ratio.error);
+
+    console.log(subject.Test_Data_Id);
+    console.log(subject.HttpStatusCode);
 
     res.render('status', { status: result });
   }
@@ -132,11 +296,16 @@ router.get('/:id', (async (req, res, next) => {
 }));
 
 router.get('/protocol/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultProtocol = validationProtocol(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultProtocol = validationProtocol(subject[0]);
 
     res.render('status', { status: [resultProtocol] });
   }
@@ -146,11 +315,16 @@ router.get('/protocol/:id', (async (req, res, next) => {
 }));
 
 router.get('/host/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultHost = validationHost(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultHost = validationHost(subject[0]);
 
     res.render('status', { status: [resultHost] });
   }
@@ -160,11 +334,16 @@ router.get('/host/:id', (async (req, res, next) => {
 }));
 
 router.get('/http-method/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultHttpMethod = validationHttpMethod(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultHttpMethod = validationHttpMethod(subject[0]);
 
     res.render('status', { status: [resultHttpMethod] });
   }
@@ -174,11 +353,16 @@ router.get('/http-method/:id', (async (req, res, next) => {
 }));
 
 router.get('/header/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultHeader = validationHeader(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultHeader = validationHeader(subject[0]);
 
     res.render('status', { status: [resultHeader] });
   }
@@ -188,11 +372,16 @@ router.get('/header/:id', (async (req, res, next) => {
 }));
 
 router.get('/query/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultQuery = validationQuery(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultQuery = validationQuery(subject[0]);
 
     res.render('status', { status: [resultQuery] });
   }
@@ -202,11 +391,16 @@ router.get('/query/:id', (async (req, res, next) => {
 }));
 
 router.get('/parameter/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultParameter = validationParameter(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultParameter = validationParameter(subject[0]);
 
     res.render('status', { status: [resultParameter] });
   }
@@ -216,11 +410,16 @@ router.get('/parameter/:id', (async (req, res, next) => {
 }));
 
 router.get('/path/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultPath = validationPath(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultPath = validationPath(subject[0]);
 
     res.render('status', { status: [resultPath] });
   }
@@ -230,11 +429,16 @@ router.get('/path/:id', (async (req, res, next) => {
 }));
 
 router.get('/body/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultBody = validationBody(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultBody = validationBody(subject[0]);
 
     res.render('status', { status: [resultBody] });
   }
@@ -244,11 +448,16 @@ router.get('/body/:id', (async (req, res, next) => {
 }));
 
 router.get('/cookie/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultCookie = validationCookie(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultCookie = validationCookie(subject[0]);
 
     res.render('status', { status: [resultCookie] });
   }
@@ -258,11 +467,16 @@ router.get('/cookie/:id', (async (req, res, next) => {
 }));
 
 router.get('/http-status-code/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultHttpStatusCode = validationHttpStatusCode(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultHttpStatusCode = validationHttpStatusCode(subject[0]);
 
     res.render('status', { status: [resultHttpStatusCode] });
   }
@@ -272,11 +486,16 @@ router.get('/http-status-code/:id', (async (req, res, next) => {
 }));
 
 router.get('/data/:id', (async (req, res, next) => {
-  const validationSubject = await TestData.findAll({});
-  const id = req.params.id - 1;
+  const id = req.params.id;
 
-  if (isNaN(id) == false && validationSubject[id] != null && typeof (id) == 'number') {
-    const resultData = validationData(validationSubject, id);
+  const subject = await TestData.findAll({
+    where: {
+      id: id
+    }
+  });
+
+  if (subject[0] != null) {
+    const resultData = validationData(subject[0]);
 
     res.render('status', { status: [resultData] });
   }
