@@ -155,17 +155,18 @@ function validationData(validationSubject) {
 router.get('/', (async (req, res, next) => {
 
   const welcome = [
-    ["/protocol/1"],
-    ["/host/1"],
-    ["/http-method/1"],
-    ["/header/1"],
-    ["/query/1"],
-    ["/parameter/1"],
-    ["/path/1"],
-    ["/body/1"],
-    ["/cookie/1"],
-    ["/http-status-code/1"],
-    ["/data/1"],
+    ["/case/id/boolean"]
+    ["/protocol/id"],
+    ["/host/id"],
+    ["/http-method/id"],
+    ["/header/id"],
+    ["/query/id"],
+    ["/parameter/id"],
+    ["/path/id"],
+    ["/body/id"],
+    ["/cookie/id"],
+    ["/http-status-code/id"],
+    ["/data/id"],
   ];
 
   res.render('status', { status: welcome });
@@ -182,15 +183,13 @@ router.get('/case/:id/:tf', (async (req, res, next) => {
   });
 
   if (data[0] != null) {
-    const startDate = new Date()
-    console.log(startDate);
-
     const test = await TestData.findAll({});
 
-    let WTH = [];
+    let temp = [];
 
     while (tf == 'true') {
-      console.log("Hello, World");
+      const startDate = new Date()
+      console.log(startDate);
 
       for (i = 0; i < test.length; i++) {
         const resultProtocol = validationProtocol(test[i]);
@@ -219,20 +218,17 @@ router.get('/case/:id/:tf', (async (req, res, next) => {
           ["Data = " + resultData]
         ];
 
-        WTH.join(result);
+        console.log(result);
+        temp.push(result);
       }
 
+      const endDate = new Date()
+      console.log(endDate);
+
       await wait(data[0].Test_Interval);
-
-      console.log("Bye, World!");
     }
-
-    const endDate = new Date()
-    console.log(endDate);
-
-    res.send("Hello, World!");
   }
-  
+
   else {
     res.render('status', { status: ["id is invalid"] });
   }
