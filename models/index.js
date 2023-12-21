@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 
-const data = require('./data');
-const testCase = require('./testcase');
-const testResult = require('./testresult');
-const result = require('./result');
+const TestData = require('./TestData');
+const TestCase = require('./TestCase');
+const TestResult = require('./TestResult');
+const Result = require('./Result');
 
 const env = process.env.NODE_ENV || 'development'; // 지정된 환경변수가 없으면 'development'로 지정
 
@@ -21,16 +21,16 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 db.sequelize = sequelize;
 
 // 모델 클래스를 넣음.
-db.data = data;
-db.testCase = testCase;
-db.testResult = testResult;
-db.TestResult = result;
+db.TestData = TestData;
+db.TestCase = TestCase;
+db.TestResult = TestResult;
+db.Result = Result;
 
 // 모델과 테이블 종합적인 연결이 설정된다.
-data.init(sequelize);
-testCase.init(sequelize);
-testResult.init(sequelize);
-result.init(sequelize);
+TestData.init(sequelize);
+TestCase.init(sequelize);
+TestResult.init(sequelize);
+Result.init(sequelize);
 
 // 모듈로 꺼낸다.
 module.exports = db;
